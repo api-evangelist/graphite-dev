@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Graphite Platform",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "GitHub App",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Install the Graphite GitHub App",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://github.com/apps/graphite-app"
+          },
+          "docs": "Entry point to install the Graphite GitHub App on an organization. The app receives GitHub webhooks for CI status, mergeability, and push events. Served by GitHub."
+        },
+        {
+          "info": {
+            "name": "Graphite GitHub Marketplace listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://github.com/marketplace/graphite-dev"
+          },
+          "docs": "The Graphite listing on the GitHub Marketplace, from which an organization owner can install the app."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authenticate the gt CLI",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.graphite.dev/auth",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"token\": \"<string>\"\n}"
+            }
+          },
+          "docs": "Logical representation of `gt auth`: register a Graphite auth token so the CLI can create and update pull requests on the user's behalf."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stacks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a stacked branch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.graphite.dev/stacks/branches",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\",\n  \"message\": \"<string>\",\n  \"all\": true\n}"
+            }
+          },
+          "docs": "Logical representation of `gt create`: create a new branch stacked on the current branch with committed changes."
+        },
+        {
+          "info": {
+            "name": "Submit a stack to GitHub",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.graphite.dev/stacks/submit",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"stack\": true,\n  \"draft\": false,\n  \"publish\": true\n}"
+            }
+          },
+          "docs": "Logical representation of `gt submit`: push stacked branches to GitHub and create or update their pull requests."
+        },
+        {
+          "info": {
+            "name": "Sync branches with remote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.graphite.dev/stacks/sync"
+          },
+          "docs": "Logical representation of `gt sync`: pull from remote, delete merged PRs, and restack local branches."
+        },
+        {
+          "info": {
+            "name": "Merge a stack of pull requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.graphite.dev/stacks/merge",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"useMergeQueue\": true\n}"
+            }
+          },
+          "docs": "Logical representation of `gt merge`: merge pull requests from trunk through the current branch via Graphite, optionally through the merge queue."
+        }
+      ]
+    }
+  ]
+}

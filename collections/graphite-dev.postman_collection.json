@@ -1,0 +1,213 @@
+{
+  "info": {
+    "name": "Graphite Platform",
+    "description": {
+      "content": "Graphite has no standalone public REST API. This collection models the real, observable surface as logical operations: the GitHub App install entry points (GitHub-mediated) and the documented gt CLI stacked-PR workflow. Paths for CLI operations are illustrative of the platform actions the CLI performs, not a documented public HTTP contract.",
+      "type": "text/plain"
+    },
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.graphite.dev"
+    },
+    {
+      "key": "githubUrl",
+      "value": "https://github.com"
+    },
+    {
+      "key": "bearerToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "GitHub App",
+      "description": {
+        "content": "GitHub App install and webhook integration entry points (served by GitHub).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "name": "Install the Graphite GitHub App",
+          "request": {
+            "name": "Install the Graphite GitHub App",
+            "url": {
+              "raw": "{{githubUrl}}/apps/graphite-app",
+              "host": ["{{githubUrl}}"],
+              "path": ["apps", "graphite-app"]
+            },
+            "method": "GET",
+            "description": "Entry point to install the Graphite GitHub App on an organization. The app receives GitHub webhooks for CI status, mergeability, and push events."
+          }
+        },
+        {
+          "name": "Graphite GitHub Marketplace listing",
+          "request": {
+            "name": "Graphite GitHub Marketplace listing",
+            "url": {
+              "raw": "{{githubUrl}}/marketplace/graphite-dev",
+              "host": ["{{githubUrl}}"],
+              "path": ["marketplace", "graphite-dev"]
+            },
+            "method": "GET",
+            "description": "The Graphite listing on the GitHub Marketplace."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "description": {
+        "content": "Graphite CLI authentication with a Graphite auth token.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "name": "Authenticate the gt CLI",
+          "request": {
+            "name": "Authenticate the gt CLI",
+            "url": {
+              "raw": "{{baseUrl}}/auth",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Logical representation of `gt auth`: register a Graphite auth token so the CLI can create and update pull requests."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stacks",
+      "description": {
+        "content": "Create, submit, sync, and merge stacked pull requests via the gt CLI.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "name": "Create a stacked branch",
+          "request": {
+            "name": "Create a stacked branch",
+            "url": {
+              "raw": "{{baseUrl}}/stacks/branches",
+              "host": ["{{baseUrl}}"],
+              "path": ["stacks", "branches"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"message\": \"<string>\",\n  \"all\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Logical representation of `gt create`: create a new branch stacked on the current branch with committed changes."
+          }
+        },
+        {
+          "name": "Submit a stack to GitHub",
+          "request": {
+            "name": "Submit a stack to GitHub",
+            "url": {
+              "raw": "{{baseUrl}}/stacks/submit",
+              "host": ["{{baseUrl}}"],
+              "path": ["stacks", "submit"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stack\": true,\n  \"draft\": false,\n  \"publish\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Logical representation of `gt submit`: push stacked branches to GitHub and create or update their pull requests."
+          }
+        },
+        {
+          "name": "Sync branches with remote",
+          "request": {
+            "name": "Sync branches with remote",
+            "url": {
+              "raw": "{{baseUrl}}/stacks/sync",
+              "host": ["{{baseUrl}}"],
+              "path": ["stacks", "sync"]
+            },
+            "method": "POST",
+            "description": "Logical representation of `gt sync`: pull from remote, delete merged PRs, and restack local branches."
+          }
+        },
+        {
+          "name": "Merge a stack of pull requests",
+          "request": {
+            "name": "Merge a stack of pull requests",
+            "url": {
+              "raw": "{{baseUrl}}/stacks/merge",
+              "host": ["{{baseUrl}}"],
+              "path": ["stacks", "merge"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"useMergeQueue\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Logical representation of `gt merge`: merge pull requests from trunk through the current branch via Graphite, optionally through the merge queue."
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  }
+}

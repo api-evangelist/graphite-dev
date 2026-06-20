@@ -1,0 +1,99 @@
+aid: graphite-dev
+name: Graphite
+review:
+  question: Does Graphite expose a documented public REST or WebSocket API?
+  answer: false
+  date: '2026-06-20'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. Graphite exposes no documented streaming
+    transport of its own (no WebSocket, no SSE API). Real-time updates flow
+    into Graphite as inbound GitHub webhooks (CI status, mergeability, push)
+    consumed by the Graphite GitHub App, and out to users via Slack
+    notifications - both GitHub/third-party mediated, not a Graphite-published
+    event API.
+findings:
+  summary: |
+    Graphite does not publish a standalone public REST or WebSocket API.
+    Graphite is built on top of GitHub. Its integration surface consists of:
+    (1) the Graphite GitHub App (graphite-app), which receives GitHub webhooks
+    and calls GitHub's APIs with fine-grained permissions and short-lived
+    tokens; (2) the gt CLI, which authenticates with a Graphite auth token
+    (gt auth) and drives the hosted platform and GitHub to create, stack,
+    submit, sync, restack, and merge pull requests; (3) the GT MCP server
+    (gt mcp), a local Model Context Protocol server built into the CLI for AI
+    agents; and (4) label / GitHub-mediated integrations (external merge queue
+    via merge labels, Slack notifications, Linear). The docs site references a
+    Mintlify OpenAPI stub (openapi.json) that returns 404 / is not a populated
+    public API contract. AI code review (Graphite Agent / Diamond) and Insights
+    are product features driven through the web app and repository settings,
+    not a public API.
+  transports:
+    - protocol: GitHub App / Webhooks
+      scheme: https
+      baseURL: https://github.com/apps/graphite-app
+      documented: true
+      note: Inbound GitHub webhooks (CI status, mergeability, push) consumed by the Graphite GitHub App.
+    - protocol: CLI
+      scheme: https
+      baseURL: https://app.graphite.dev
+      documented: true
+      note: gt CLI authenticated with a Graphite auth token; drives the platform and GitHub.
+    - protocol: MCP
+      scheme: stdio
+      documented: true
+      note: GT MCP local server (gt mcp) for AI agents in Cursor and Claude Code; not a remote HTTP API.
+    - protocol: REST
+      scheme: https
+      documented: false
+      note: No documented standalone public REST API; the Mintlify openapi.json reference is not a populated public contract (404).
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented.
+  endpointsConfirmedRest: []
+  cliCommandsConfirmed:
+    - gt auth
+    - gt init
+    - gt create
+    - gt submit
+    - gt sync
+    - gt modify
+    - gt restack
+    - gt merge
+    - gt log
+    - gt mcp
+sources:
+  - url: https://graphite.com/docs
+    type: Documentation
+    note: Documentation index; sections cover CLI, AI Reviews, Agents, Merge Queue, Integrations, Insights, Admin. No public REST API section.
+  - url: https://graphite.com/docs/authenticate-with-github-app
+    type: Documentation
+    note: Graphite installs as a GitHub App to receive GitHub webhooks and call GitHub's APIs; GitHub is the only git provider.
+  - url: https://graphite.com/docs/command-reference
+    type: APIReference
+    note: Full gt CLI command reference; the CLI is the primary programmatic surface.
+  - url: https://graphite.com/docs/gt-mcp
+    type: Documentation
+    note: GT MCP server (gt mcp) is a local MCP server built into the CLI for AI agents.
+  - url: https://graphite.com/docs/external-merge-queue-integration
+    type: Documentation
+    note: External merge queue integration is label-based and GitHub-mediated, not an HTTP API.
+  - url: https://graphite-58cc94ce.mintlify.dev/docs/api-reference/openapi.json
+    type: OpenAPI
+    note: Referenced from llms.txt but returns 404; not a populated public API contract.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No standalone public REST or WebSocket API exists. The apis.yml models the
+    real surface as logical APIs (GitHub App, CLI, MCP, Agent/Diamond, Merge
+    Queue, Insights). A small-but-real OpenAPI was authored representing the
+    GitHub App install entry points plus the documented gt CLI stacked-PR
+    workflow as logical operations, with descriptions stating these are not a
+    documented public HTTP contract. No AsyncAPI was created because Graphite
+    publishes no streaming transport of its own.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

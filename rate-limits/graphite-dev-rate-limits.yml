@@ -1,0 +1,70 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Graphite
+providerId: graphite-dev
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Code Review
+- Stacked PRs
+- Merge Queue
+- Developer Tools
+- GitHub
+- Rate Limiting
+- Quotas
+description: >-
+  Graphite does not publish a standalone public REST API, so there is no
+  documented per-key RPM/RPS API rate limit. The practical limits a Graphite
+  customer encounters are: GitHub's own API rate limits, which Graphite's
+  GitHub App is engineered to use efficiently (fine-grained permissions and
+  short-lived tokens to avoid secondary rate limits); plan-based caps on AI
+  Reviews and Graphite Chat (limited on the Hobby plan, unlimited on Team);
+  and merge queue throughput governed by CI capacity and queue configuration.
+  No specific numeric API limits are reconciled in this artifact.
+notes: >-
+  On reconciliation, confirm any AI review / chat caps on the Hobby plan and
+  any documented GitHub App rate-limit handling. GitHub's REST and GraphQL API
+  rate limits are governed by GitHub, not Graphite.
+sources:
+- https://graphite.com/docs/authenticate-with-github-app
+- https://graphite.com/docs/billing-plans
+- https://graphite.com/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: GitHub API Rate Limits
+  scope: installation
+  metric: requests
+  limit: governed by GitHub
+  notes: >-
+    Graphite's GitHub App uses fine-grained permissions and short-lived tokens
+    to make efficient use of GitHub's API and avoid secondary rate limits.
+- name: AI Reviews (Hobby)
+  scope: account
+  metric: reviews
+  limit: limited on Hobby; unlimited on Team
+  notes: Plan-based cap on Graphite Agent / Diamond AI reviews.
+- name: Graphite Chat (Hobby)
+  scope: account
+  metric: chats
+  limit: limited on Hobby; unlimited on Team
+  notes: Plan-based cap on Graphite Chat / Agent conversations.
+- name: Merge Queue Throughput
+  scope: repository
+  metric: pull_requests
+  limit: governed by CI capacity and queue settings
+  notes: Parallel batching of PRs is bounded by CI and merge queue configuration.
+policies:
+- name: GitHub-Mediated
+  description: >-
+    Graphite acts through GitHub's APIs and webhooks; GitHub's rate limits and
+    abuse-detection mechanisms apply to the underlying API traffic.
+- name: Plan-Based Quotas
+  description: >-
+    AI Reviews and Chat are limited on the free Hobby plan and unlimited on the
+    Team plan; upgrade to raise these caps.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

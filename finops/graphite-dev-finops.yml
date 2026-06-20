@@ -1,0 +1,99 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Graphite
+providerId: graphite-dev
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- Code Review
+- Stacked PRs
+- Merge Queue
+- AI Code Review
+- Developer Tools
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Graphite spend. Graphite bills on a per-seat subscription
+  basis rather than usage-based metering: a free Hobby plan, Starter at $20
+  per user/month and Team at $40 per user/month (both billed annually), and a
+  custom-priced Enterprise plan. AI Reviews and Graphite Chat (Agent / Diamond)
+  are bundled into the seat price, limited on Hobby and unlimited on Team, so
+  the primary cost lever is active seat count and tier.
+notes: >-
+  Per-seat prices reflect annual billing; verify current rates and any monthly
+  option on the Graphite pricing page during reconciliation. Graphite does not
+  publish usage-metered API pricing.
+sources:
+- https://graphite.com/pricing
+- https://graphite.com/docs/billing-plans
+- https://graphite.com/docs/graphite-admin
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Graphite
+serviceCategory: Developer Tools
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Annual
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: Graphite
+  ServiceCategory: Developer Tools
+  ProviderName: Graphite
+  PublisherName: Graphite
+  InvoiceIssuerName: Graphite
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription-Based
+meters:
+- name: active_seats
+  description: Active paid user seats per tier (Starter / Team), billed per user/month.
+  unit: seats
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: ai_reviews
+  description: Graphite Agent / Diamond AI reviews; limited on Hobby, unlimited on Team (bundled, not metered).
+  unit: reviews
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: graphite_chat
+  description: Graphite Chat / Agent conversations; limited on Hobby, unlimited on Team (bundled, not metered).
+  unit: chats
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: merge_queue_runs
+  description: Pull requests batched and tested through the Graphite merge queue (drives CI cost, not a Graphite line item).
+  unit: pull_requests
+  aggregation: sum
+  dimensions:
+  - account
+  - repository
+principles:
+- name: Visibility
+  description: Track active seat count and tier per organization via the Graphite admin / billing pages.
+- name: Allocation
+  description: Allocate seats to teams; map paid seats to internal engineering cost centers.
+- name: Optimization
+  description: Right-size seats to active reviewers, reclaim inactive seats, and choose the tier (Starter vs. Team) that matches AI review / merge queue needs.
+- name: Accountability
+  description: Assign a billing owner; review seat count and tier against budget; note that merge queue activity drives downstream CI spend.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

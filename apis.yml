@@ -1,0 +1,159 @@
+aid: graphite-dev
+url: https://raw.githubusercontent.com/api-evangelist/graphite-dev/refs/heads/main/apis.yml
+name: Graphite
+kind: company
+description: Graphite is a code review platform built on top of GitHub for stacking
+  pull requests, AI code review, and merging at scale. The gt CLI creates and submits
+  stacked PRs, Graphite Agent (Diamond) provides codebase-aware AI review and chat,
+  and a merge queue batches and tests PRs in parallel. Graphite has no standalone
+  public REST API - it integrates through a GitHub App that consumes GitHub webhooks,
+  the gt CLI (authenticated with a Graphite token), the GT MCP server, and label /
+  GitHub-mediated integrations (Slack, Linear, external merge queue).
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Code Review
+- Stacked PRs
+- Merge Queue
+- AI Code Review
+- Developer Tools
+- GitHub
+created: '2026-06-20'
+modified: '2026-06-20'
+specificationVersion: '0.19'
+apis:
+- aid: graphite-dev:graphite-github-app
+  name: Graphite GitHub App
+  tags:
+  - GitHub App
+  - Webhooks
+  - Authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://graphite.com/docs/authenticate-with-github-app
+  baseURL: https://github.com/apps/graphite-app
+  properties:
+  - url: https://graphite.com/docs/authenticate-with-github-app
+    type: Documentation
+  - url: https://github.com/marketplace/graphite-dev
+    type: APIReference
+  - url: openapi/graphite-dev-openapi.yml
+    type: OpenAPI
+  description: Graphite installs as a GitHub App (graphite-app) on an organization
+    to receive GitHub webhooks for real-time updates on CI status, mergeability, and
+    push events, and to call GitHub's APIs with fine-grained permissions and short-lived
+    tokens. GitHub is the only git provider Graphite integrates with; there is no
+    standalone Graphite-hosted REST API.
+- aid: graphite-dev:graphite-cli
+  name: Graphite CLI (gt)
+  tags:
+  - CLI
+  - Stacked PRs
+  - Stacking
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://graphite.com/docs/cli-overview
+  baseURL: https://app.graphite.dev
+  properties:
+  - url: https://graphite.com/docs/cli-overview
+    type: Documentation
+  - url: https://graphite.com/docs/command-reference
+    type: APIReference
+  - url: openapi/graphite-dev-openapi.yml
+    type: OpenAPI
+  description: The gt command-line interface creates, stacks, submits, syncs, restacks,
+    and merges pull requests from the terminal. It authenticates with a Graphite auth
+    token (gt auth) and drives Graphite's hosted platform plus GitHub on the user's
+    behalf.
+- aid: graphite-dev:graphite-mcp
+  name: Graphite GT MCP Server
+  tags:
+  - MCP
+  - Model Context Protocol
+  - AI Agents
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://graphite.com/docs/gt-mcp
+  baseURL: https://graphite.com/docs/gt-mcp
+  properties:
+  - url: https://graphite.com/docs/gt-mcp
+    type: Documentation
+  - url: openapi/graphite-dev-openapi.yml
+    type: OpenAPI
+  description: GT MCP is a Model Context Protocol server built into the Graphite CLI
+    (gt mcp) that lets AI agents in tools like Cursor and Claude Code automatically
+    break large changes into smaller, reviewable stacked pull requests. It is a local
+    MCP server over the CLI, not a remote HTTP API.
+- aid: graphite-dev:graphite-agent-diamond
+  name: Graphite Agent (Diamond) AI Code Review
+  tags:
+  - AI Code Review
+  - Diamond
+  - Code Review
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://graphite.com/docs/ai-reviews
+  baseURL: https://app.graphite.dev
+  properties:
+  - url: https://graphite.com/docs/ai-reviews
+    type: Documentation
+  - url: https://graphite.com/docs/ai-review-customization
+    type: Documentation
+  - url: openapi/graphite-dev-openapi.yml
+    type: OpenAPI
+  description: Graphite Agent (formerly Diamond, now unified with Graphite Chat) is
+    a codebase-aware AI code review agent that comments on pull requests, answers
+    questions, and helps fix and iterate on code. It is triggered on PRs through the
+    Graphite platform and configured via repository settings, not via a public API.
+- aid: graphite-dev:graphite-merge-queue
+  name: Graphite Merge Queue
+  tags:
+  - Merge Queue
+  - CI
+  - Automation
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://graphite.com/docs/graphite-merge-queue
+  baseURL: https://app.graphite.dev
+  properties:
+  - url: https://graphite.com/docs/graphite-merge-queue
+    type: Documentation
+  - url: https://graphite.com/docs/external-merge-queue-integration
+    type: Documentation
+  - url: openapi/graphite-dev-openapi.yml
+    type: OpenAPI
+  description: The Graphite merge queue batches and tests multiple PRs in parallel
+    once they are ready, reducing wait times and merge conflicts. Integration with
+    an external merge queue is label-based and GitHub-mediated rather than exposed
+    as an HTTP API.
+- aid: graphite-dev:graphite-insights
+  name: Graphite Insights
+  tags:
+  - Insights
+  - Analytics
+  - Engineering Velocity
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://graphite.com/docs/insights
+  baseURL: https://app.graphite.dev
+  properties:
+  - url: https://graphite.com/docs/insights
+    type: Documentation
+  - url: https://graphite.com/docs/insights-stats-definitions
+    type: Documentation
+  - url: openapi/graphite-dev-openapi.yml
+    type: OpenAPI
+  description: Graphite Insights tracks team engineering velocity (PR throughput,
+    review latency, and related stats) over indexed repositories, surfaced in the
+    Graphite web app. No public analytics API is documented.
+common:
+- type: GitHubOrganization
+  url: https://github.com/withgraphite
+- type: LinkedIn
+  url: https://www.linkedin.com/company/graphite-dev
+- type: Website
+  url: https://graphite.dev
+- type: Documentation
+  url: https://graphite.com/docs
+- type: Plans
+  url: plans/graphite-dev-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/graphite-dev-rate-limits.yml
+- type: FinOps
+  url: finops/graphite-dev-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

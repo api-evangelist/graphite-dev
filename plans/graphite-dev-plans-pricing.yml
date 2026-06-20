@@ -1,0 +1,166 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Graphite
+providerId: graphite-dev
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- Code Review
+- Stacked PRs
+- Merge Queue
+- AI Code Review
+- Developer Tools
+- Plans
+description: >-
+  Graphite uses per-seat subscription tiers: a free Hobby plan, paid Starter
+  and Team plans priced per user/month (billed annually), and a custom-priced
+  Enterprise plan. Pricing is seat-based rather than usage-metered; AI reviews
+  and chat (Graphite Agent / Diamond) are bundled into the tiers, limited on
+  Hobby and unlimited on Team. All paid plans include a 30-day free trial with
+  no credit card required.
+notes: >-
+  Prices as published on the Graphite pricing page; Starter and Team prices are
+  billed annually (a ~20% discount vs. monthly). Verify the current catalog and
+  any monthly rates on the pricing page during reconciliation.
+sources:
+- https://graphite.com/pricing
+- https://graphite.com/docs/billing-plans
+- https://graphite.com/docs/pricing-faq
+plans:
+- id: graphite-hobby
+  name: Hobby
+  type: free
+  description: >-
+    Free plan for individuals on personal account repos, including the CLI,
+    GT MCP, VS Code extension, in-app notifications, and limited Graphite Chat
+    and AI Reviews.
+  entries:
+  - label: Seats
+    name: seats
+    type: flat
+    metric: seats
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  - label: AI Reviews
+    name: ai_reviews
+    type: flat
+    metric: reviews
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: limited
+    userMultiplied: false
+  - label: Graphite Chat
+    name: graphite_chat
+    type: flat
+    metric: chats
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: limited
+    userMultiplied: false
+  elements:
+  - name: Personal account repos
+  - name: CLI for stacked PRs
+  - name: GT MCP
+  - name: VS Code extension
+  - name: In-app / inbox notifications
+  - name: Limited Graphite Chat
+  - name: Limited AI Reviews
+- id: graphite-starter
+  name: Starter
+  type: subscription
+  description: >-
+    Everything in Hobby plus all GitHub Organization repos, Slack
+    notifications, and team insights. Priced per user/month, billed annually.
+  entries:
+  - label: Per Seat
+    name: per_seat
+    type: recurring
+    metric: seats
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $20 per user/month (billed annually)
+    userMultiplied: true
+  elements:
+  - name: Everything in Hobby
+  - name: All GitHub Organization repos
+  - name: Slack notifications
+  - name: Team insights
+- id: graphite-team
+  name: Team
+  type: subscription
+  description: >-
+    Everything in Starter plus unlimited Graphite Chat, unlimited AI Reviews,
+    AI review customization, automations, and the merge queue. Priced per
+    user/month, billed annually.
+  entries:
+  - label: Per Seat
+    name: per_seat
+    type: recurring
+    metric: seats
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $40 per user/month (billed annually)
+    userMultiplied: true
+  - label: AI Reviews
+    name: ai_reviews
+    type: flat
+    metric: reviews
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: unlimited
+    userMultiplied: false
+  elements:
+  - name: Everything in Starter
+  - name: Unlimited Graphite Chat
+  - name: Unlimited AI Reviews
+  - name: AI review customization
+  - name: Automations
+  - name: Merge queue
+- id: graphite-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Everything in Team plus advanced merge queue settings, custom analytics,
+    ACLs, SAML, audit logging, GitHub Enterprise Server (GHES) support, private
+    uploads, premium support / SLAs, and custom MSA and payments. Custom pricing,
+    contact Graphite sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Everything in Team
+  - name: Advanced merge queue settings
+  - name: Custom analytics
+  - name: ACLs
+  - name: SAML SSO
+  - name: Audit logging
+  - name: GitHub Enterprise Server support
+  - name: Private uploads
+  - name: Premium support and SLAs
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
